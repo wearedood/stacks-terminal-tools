@@ -1,0 +1,12 @@
+{
+  "name": "stacks-hacker-menu-dood",
+  "version": "1.0.0",
+  "description": "A CLI toolkit for scanning the Stacks blockchain",
+  "main": "menu.js",
+  "type": "module",
+  "bin": {
+    "stacks-menu": "menu.js"
+  },
+  "author": "Web3 King",
+  "license": "ISC"
+}
