@@ -7,15 +7,16 @@ async function showMenu() {
 
   while (running) {
     console.log('\n==================================');
-    console.log('🚀 STACKS HACKER TOOLKIT v1.0 🚀');
+    console.log('🚀 STACKS HACKER TOOLKIT v2.0 🚀');
     console.log('==================================');
     console.log('1. Ping Mainnet (Block Height)');
     console.log('2. Check STX Balance');
     console.log('3. Scan Transaction History');
-    console.log('4. Exit');
+    console.log('4. Scan NFT Holdings');
+    console.log('5. Exit');
     console.log('==================================');
 
-    const choice = await rl.question('👉 Select an option (1-4): ');
+    const choice = await rl.question('👉 Select an option (1-5): ');
 
     if (choice === '1') {
       console.log('\n📡 Pinging Stacks Mainnet...');
@@ -40,6 +41,21 @@ async function showMenu() {
         console.log(`    Type: ${tx.tx_type} | Status: ${tx.tx_status}`);
       });
     } else if (choice === '4') {
+      const address = await rl.question('\n👉 Enter a Stacks wallet address: ');
+      console.log(`\n🖼️ Fetching NFT holdings for: ${address}...`);
+      const response = await fetch(`https://api.mainnet.hiro.so/extended/v1/tokens/nft/holdings?principal=${address}`);
+      const data = await response.json();
+      console.log('\n🎨 NFT Collection:');
+      if (data.results && data.results.length > 0) {
+        data.results.forEach((nft, index) => {
+          console.log(`[${index + 1}] Asset: ${nft.asset_identifier}`);
+          console.log(`    Value (Hex): ${nft.value.hex}`);
+        });
+        console.log(`\nTotal NFTs found: ${data.total}`);
+      } else {
+        console.log('❌ No NFTs found in this wallet.');
+      }
+    } else if (choice === '5') {
       console.log('\n👋 Exiting toolkit. Stay safe out there!');
       running = false;
     } else {
